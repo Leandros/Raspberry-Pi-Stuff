@@ -2,7 +2,7 @@ Raspberry Pi Stuff
 ==================
 
 
-## Depandancys
+## Depandancies
 
 * [WiringPi][1]
 * g++ (or another c++ compiler)
@@ -10,7 +10,7 @@ Raspberry Pi Stuff
 
 ## Compilation
 
-Compile with: `g++ toggleLED.cpp -o toggleLED -I/usr/local/include -L/usr/local/lib -lwiringPi`
+Compile commands, including all necassary flags are in the file readme.
 
 
 ## Contributions
