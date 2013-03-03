@@ -36,10 +36,10 @@
 #include <signal.h>
 
 #define DAEMON_NAME "internetIndicator"
+#define LED_RED  7
+#define LED_GREEN  1
+  
 using namespace std;
-
-int pinOutputRed = 7;
-int pinOutputGreen = 1;
 
 void daemonShutdown();
 void signal_handler(int sig);
@@ -66,8 +66,8 @@ void signal_handler(int sig) {
 }
 
 void daemonShutdown() {
-	digitalWrite(pinOutputRed, 0);
-	digitalWrite(pinOutputGreen, 0);
+	digitalWrite(LED_RED, 0);
+	digitalWrite(LED_GREEN, 0);
 	close(pidFilehandle);
 }
 
@@ -177,8 +177,8 @@ int main (int argc, char** argv) {
 	}
 
 	if (strcmp(input[0], kill[0]) == 0 || strcmp(input[0], kill[1]) == 0) {
-		digitalWrite(pinOutputRed, 0);
-        digitalWrite(pinOutputGreen, 0);
+		digitalWrite(LED_RED, 0);
+        digitalWrite(LED_GREEN, 0);
 		exit(EXIT_SUCCESS);
 		return 1;
 	} else {
@@ -202,8 +202,8 @@ int main (int argc, char** argv) {
 	        return 1;
 	    }
 
-	    pinMode(pinOutputRed, OUTPUT);
-	    pinMode(pinOutputGreen, OUTPUT);
+	    pinMode(LED_RED, OUTPUT);
+	    pinMode(LED_GREEN, OUTPUT);
 
         syslog(LOG_INFO, "Daemon running");
 
@@ -214,9 +214,9 @@ int main (int argc, char** argv) {
 		    if(!(output = popen("/sbin/route -n | grep -c '^0\\.0\\.0\\.0'","r"))) {
 		    	cout << "Error!";
 		    	while (true) {
-		    		digitalWrite(pinOutputRed, 1);
+		    		digitalWrite(LED_RED, 1);
 		    		delay(1000);
-		    		digitalWrite(pinOutputRed, 0);
+		    		digitalWrite(LED_RED, 0);
 		    		delay(1000);
 		    	}
 		        return 1;
@@ -227,13 +227,13 @@ int main (int argc, char** argv) {
 
 		    if (i == 0) {
 		    	// Internet not connected.
-		    	digitalWrite(pinOutputGreen, 0);
-		    	digitalWrite(pinOutputRed, 1);
+		    	digitalWrite(LED_GREEN, 0);
+		    	digitalWrite(LED_RED, 1);
 		    }
 		    else if (i == 1) {
 		    	// Internet connected.
-		    	digitalWrite(pinOutputRed, 0);
-		    	digitalWrite(pinOutputGreen, 1);
+		    	digitalWrite(LED_RED, 0);
+		    	digitalWrite(LED_GREEN, 1);
 		    }
 
 		    pclose(output);

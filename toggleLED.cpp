@@ -27,18 +27,18 @@
 #include <iostream>
 #include <signal.h>
 
+#define PIN_OUTPUT  7
+#define PIN_INPUT  0
+
 using namespace std;
 
-int pinOutput = 7;
-int pinInput = 0;
 int toggleLED = 0;
 int toggleLED2 = 0;
-
 
 void sighandler(int sig)
 {
         cout << "Exiting..." << endl;
-        digitalWrite(pinOutput, 0);
+        digitalWrite(PIN_OUTPUT, 0);
         exit(0);
 }
 
@@ -53,23 +53,23 @@ int main ()
                 return 1;
         }
 
-        pinMode(pinOutput, OUTPUT);
-        pinMode(pinInput, INPUT);
+        pinMode(PIN_OUTPUT, OUTPUT);
+        pinMode(PIN_INPUT, INPUT);
 
         while (true)
         {
-                if (digitalRead(pinInput) == 1)
+                if (digitalRead(PIN_INPUT) == 1)
                 {
                         if (toggleLED == 0)
                         {
-                                digitalWrite(pinOutput, 1);
+                                digitalWrite(PIN_OUTPUT, 1);
                                 cout << "Turn LED On" << endl;
                                 delay(1000);
                                 toggleLED = 1;
                         }
                         else
                         {
-                                digitalWrite(pinOutput, 0);
+                                digitalWrite(PIN_OUTPUT, 0);
                                 cout << "Turn LED Off" << endl;
                                 delay(1000);
                                 toggleLED = 0;
