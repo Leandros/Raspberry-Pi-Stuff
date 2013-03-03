@@ -30,14 +30,24 @@
 
 using namespace std;
 
-int PIN_OUTPUT = 7;
+// Left to Right.
+int PIN_OUTPUT[10] = { 7, 0, 2, 3, 12, 13, 14, 11, 10, 6 };
+
+int DELAY_MS_SHORT = 5;
 int DELAY_MS = 10;
+int DELAY_MS_LONG = 20;
+
 
 void sighandler(int sig)
 {
         cout << "Exiting..." << endl;
-        pinMode(PIN_OUTPUT, OUTPUT);
-        digitalWrite(PIN_OUTPUT, 0);
+        
+        for(int downPin = 0; downPin < 10; downPin++)
+        {
+                softPwmWrite(PIN_OUTPUT[downPin], 0);
+                delay(DELAY_MS);
+        }
+        
         exit(0);
 }
 
@@ -52,24 +62,42 @@ int main ()
                 return 1;
         }
         
-        if (softPwmCreate(PIN_OUTPUT, 0, 100) != 0)
+        // Prepare LEDs.
+        for(int i = 0; i < 10; i++)
         {
-                cout << "Error";
-                return 1;
+                softPwmCreate(PIN_OUTPUT[i], 0, 100);
         }
         
+        // Turn LEDs one by one on.
+        for(int upPin = 0; upPin < 10; upPin++)
+        {
+                for(int upCount = 0; upCount <= 100; upCount++)
+                {       
+                      softPwmWrite(PIN_OUTPUT[upPin], upCount);
+                      delay(DELAY_MS_SHORT);
+                }
+                
+                delay(DELAY_MS);
+        }
+
         while(1)
         {
-                for(int up = 0; up <= 100; up++)
+                for(int downPin = 0; downPin < 10; downPin++)
                 {
-                        softPwmWrite(PIN_OUTPUT, up);
-                        delay(DELAY_MS);
-                }
-                for(int down = 100; down >= 0; down--)
-                {
-                        softPwmWrite(PIN_OUTPUT, down);
+                        for(int downCount = 100; downCount > 0; downCount -= 5)
+                        {
+                                softPwmWrite(PIN_OUTPUT[downPin], downCount);
+                                delay(DELAY_MS_SHORT);
+                        }
+                        for(int upCountAgain = 0; upCountAgain <= 100; upCountAgain += 5)
+                        {
+                                softPwmWrite(PIN_OUTPUT[downPin], upCountAgain);
+                                delay(DELAY_MS_SHORT);
+                        }
+
                         delay(DELAY_MS);
                 }
         }
+        
         
 }
