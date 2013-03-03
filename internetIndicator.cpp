@@ -36,9 +36,9 @@
 #include <signal.h>
 
 #define DAEMON_NAME "internetIndicator"
-#define LED_RED  7
-#define LED_GREEN  1
-  
+#define LED_RED 7
+#define LED_GREEN 1
+
 using namespace std;
 
 void daemonShutdown();

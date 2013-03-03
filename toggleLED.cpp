@@ -27,8 +27,8 @@
 #include <iostream>
 #include <signal.h>
 
-#define PIN_OUTPUT  7
-#define PIN_INPUT  0
+#define PIN_OUTPUT 7
+#define PIN_INPUT 0
 
 using namespace std;
 
