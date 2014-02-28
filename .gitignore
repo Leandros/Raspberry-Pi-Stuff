@@ -17,6 +17,5 @@ donottrack/*
 
 # Hide compiled files
 toggleLED
-internetIndicator
 pwmLED
 
