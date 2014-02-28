@@ -20,21 +20,17 @@ CFLAGS	= $(DEBUG) -Wall $(INCLUDE) -Winline -pipe
 LDFLAGS	= -L/usr/local/lib
 LDLIBS	= -lwiringPi
 
-SRC 	= 	internetIndicator.cpp toggleLED.cpp pwmLED.cpp
+SRC 	= toggleLED.cpp pwmLED.cpp
 OBJ	=	$(SRC:.cpp=.o)
 BINS	=	$(SRC:.cpp=)
 
 .PHONY:	clean all
 
-all:	toggleLED internetIndicator pwmLED
+all:	toggleLED pwmLED
 
 
 toggleLED:	toggleLED.o
 		@$(CC) -o $@ toggleLED.o $(LDFLAGS) $(LDLIBS)
-
-
-internetIndicator:	internetIndicator.o
-			@$(CC) -o $@ internetIndicator.o $(LDFLAGS) $(LDLIBS)
 
 
 pwmLED:	pwmLED.o
